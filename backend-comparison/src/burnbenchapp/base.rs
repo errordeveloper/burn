@@ -99,6 +99,10 @@ pub(crate) enum BackendValues {
     Wgpu,
     #[strum(to_string = "wgpu-fusion")]
     WgpuFusion,
+    #[strum(to_string = "wgpu-dawn")]
+    WgpuDawn,
+    #[strum(to_string = "wgpu-dawn-fusion")]
+    WgpuDawnFusion,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, ValueEnum, Display, EnumIter)]

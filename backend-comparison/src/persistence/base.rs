@@ -185,7 +185,10 @@ impl<'de> Visitor<'de> for BenchmarkRecordVisitor {
             match key.as_str() {
                 "backend" => br.backend = map.next_value::<String>()?,
                 "device" => br.device = map.next_value::<String>()?,
-                "backendConfigName" => br.results.backend_config_name = Some(map.next_value::<String>()?),
+                "backendConfigName" => match map.next_value::<String>() {
+                    Ok(s) => br.results.backend_config_name = Some(s),
+                    Err(_) => br.results.backend_config_name = None,
+                },
                 "gitHash" => br.results.git_hash = map.next_value::<String>()?,
                 "name" => br.results.name = map.next_value::<String>()?,
                 "max" => {
@@ -329,7 +332,7 @@ mod tests {
         let record = serde_json::from_str::<BenchmarkRecord>(sample_result).unwrap();
         assert!(record.backend == "candle");
         assert!(record.device == "Cuda(0)");
-        assert!(record.results.backend_config_name == "candle-cuda");
+        assert!(record.results.backend_config_name == Some(String::from("candle-cuda")));
         assert!(record.results.git_hash == "02d37011ab4dc773286e5983c09cde61f95ba4b5");
         assert!(record.results.name == "unary");
         assert!(record.results.computed.max.as_micros() == 8858);

@@ -34,7 +34,10 @@ macro_rules! bench_on_backend {
         let url = backend_comparison::get_sharing_url(&args);
         let token = backend_comparison::get_sharing_token(&args);
 
-        #[cfg(feature = "wgpu")]
+        #[cfg(any(
+            feature = "wgpu",
+            feature = "wgpu-dawn",
+        ))]
         {
             use burn::backend::wgpu::{AutoGraphicsApi, Wgpu, WgpuDevice};
 
