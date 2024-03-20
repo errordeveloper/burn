@@ -49,7 +49,14 @@ impl<G: GraphicsApi, F: FloatElement, I: IntElement> Runtime for WgpuRuntime<G, 
     }
 
     fn name() -> &'static str {
-        "wgpu"
+        #[cfg(feature = "wgpu")]
+        {
+            "wgpu"
+        }
+        #[cfg(feature = "dawn")]
+        {
+            "wgpu-dawn"
+        }
     }
 }
 
